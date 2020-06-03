@@ -1,0 +1,7 @@
+diff --git a/client/share/ltsp/init-ltsp.d/99-preinit b/client/share/ltsp/init-ltsp.d/99-preinit
+new file mode 100644
+index 00000000..51430b24
+--- /dev/null
++++ b/client/share/ltsp/init-ltsp.d/99-preinit
+@@ -0,0 +1 @@
++sh -c "$(env | sort -V | sed -n 's/^PREINIT_[^=]*=//p')"

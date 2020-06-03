@@ -1,0 +1,17 @@
+diff --git a/client/Debian/share/initramfs-tools/scripts/init-bottom/ltsp b/client/Debian/share/initramfs-tools/scripts/init-bottom/ltsp
+index 204e2173..a5feb821 100755
+--- a/client/Debian/share/initramfs-tools/scripts/init-bottom/ltsp
++++ b/client/Debian/share/initramfs-tools/scripts/init-bottom/ltsp
+@@ -24,6 +24,12 @@ grep -qs "init=/sbin/init-ltsp" /proc/cmdline || exit 0
+
+ [ -z "${rootmnt}" ] && panic "rootmnt unknown in init-bottom"
+ [ -d "${rootmnt}/proc" ] || panic "rootmnt not mounted in init-bottom"
++
++if [ -f ${rootmnt}/etc/lts.conf ] && [ -x ${rootmnt}/usr/bin/getltscfg ]; then
++    # get defaults from lts.conf
++    eval $(chroot ${rootmnt} /usr/bin/getltscfg -a)
++fi
++
+ # mount writeable filesystems if / is not already mounted writeable.
+ if ! chroot ${rootmnt} /usr/bin/test -w "/" ; then
+     mkdir -p /rofs /cow

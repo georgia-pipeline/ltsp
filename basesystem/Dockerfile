@@ -1,4 +1,4 @@
-FROM georgiapipeline/ltsp-base as basesystem
+FROM georgiapipeline/ltsp-base as ltsp-basesystem
 
 ARG DEBIAN_FRONTEND=noninteractive
 

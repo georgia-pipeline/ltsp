@@ -1,4 +1,4 @@
-FROM georgiapipeline/basesystem as builder
+FROM georgiapipeline/ltsp-basesystem as ltsp-builder
 
 # Set cpuinfo (for building from sources)
 RUN cp /proc/cpuinfo /opt/ltsp/amd64/proc/cpuinfo

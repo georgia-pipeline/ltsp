@@ -7,9 +7,9 @@ RUN debootstrap --arch arm64 xenial /opt/ltsp/arm64
 
 # Install updates
 RUN echo "\
-      deb [arch=arm64] http://archive.ubuntu.com/ubuntu xenial main restricted universe multiverse\n\
-      deb [arch=arm64] http://archive.ubuntu.com/ubuntu xenial-updates main restricted universe multiverse\n\
-      deb [arch=arm64] http://archive.ubuntu.com/ubuntu xenial-security main restricted universe multiverse" \
+      deb http://archive.ubuntu.com/ubuntu xenial main restricted universe multiverse\n\
+      deb http://archive.ubuntu.com/ubuntu xenial-updates main restricted universe multiverse\n\
+      deb http://archive.ubuntu.com/ubuntu xenial-security main restricted universe multiverse" \
       > /opt/ltsp/arm64/etc/apt/sources.list \
  && ltsp-chroot apt-get -y update \
  && ltsp-chroot apt-get -y upgrade

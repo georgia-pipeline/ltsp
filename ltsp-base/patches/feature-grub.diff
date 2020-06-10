@@ -67,7 +67,6 @@ index 9253d321..e2220942 100755
 +        [ -d /usr/lib/grub/i386-pc ] || echo "Skipping Grub pc bootloader installation. Install the grub-pc-bin package if you need it."
 +        [ -d /usr/lib/grub/i386-efi ] || echo "Skipping Grub i386-efi bootloader installation. Install the grub-efi-ia32-bin package if you need it."
 +        [ -d /usr/lib/grub/x86_64-efi ] || echo "Skipping Grub x86_64-efi bootloader installation. Install the grub-efi-amd64-bin package if you need it."
-+        [ -d /usr/lib/grub/arm64-efi ] || echo "Skipping Grub arm_64-efi bootloader installation. Install the grub-efi-arm64-bin package if you need it."
 +        grub-mknetdir --net-directory="$tftpdir" --subdir="$TFTP_BOOT_DIR/$name/grub" &&
 +        generate_grub_config "$tftpboot/$name"
 +    else
@@ -208,7 +207,7 @@ index 9253d321..e2220942 100755
 +    ln -sf "ltsp.cfg" "$GRUBCFG/grub.cfg"
 +
 +    # link lts.conf
-+    for dir in i386-pc x86_64-efi i386-efi arm64-efi; do
++    for dir in i386-pc x86_64-efi i386-efi; do
 +        mkdir -p "$GRUBCFG/$dir"
 +        ln -sf "../../lts.conf" "$GRUBCFG/$dir/lts.conf"
 +    done

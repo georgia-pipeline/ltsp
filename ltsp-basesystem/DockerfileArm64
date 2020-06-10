@@ -1,4 +1,4 @@
-FROM georgiapipeline/ltsp-base:arm64-latest as ltsp-basesystem:arm64-latest
+FROM georgiapipeline/ltsp-base:arm64-latest as ltsp-basesystem
 
 ARG DEBIAN_FRONTEND=noninteractive
 

@@ -5,7 +5,7 @@ ADD /patches/feature-grub.diff /patches/feature-grub.diff
 RUN apt-get -y update \
  && apt-get -y install \
       apt-utils \
-      ltsp-server \
+      ldm-server \
       tftpd-hpa \
       nbd-server \
       grub-common \

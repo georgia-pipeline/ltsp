@@ -7,10 +7,10 @@ RUN debootstrap --arch arm64 xenial /opt/ltsp/arm64
 
 # Install updates
 RUN echo "\
-      deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted multiverse universe\n\
-      deb http://ports.ubuntu.com/ubuntu-ports bionic-backports main restricted multiverse universe\n\
-      deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted multiverse universe\n\
-      deb http://ports.ubuntu.com/ubuntu-ports bionic-updates main restricted multiverse universe" \
+      deb http://ports.ubuntu.com/ubuntu-ports focal main restricted multiverse universe\n\
+      deb http://ports.ubuntu.com/ubuntu-ports focal-backports main restricted multiverse universe\n\
+      deb http://ports.ubuntu.com/ubuntu-ports focal-security main restricted multiverse universe\n\
+      deb http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted multiverse universe" \
       > /opt/ltsp/arm64/etc/apt/sources.list \
  && ltsp-chroot apt-get -y update \
  && ltsp-chroot apt-get -y upgrade

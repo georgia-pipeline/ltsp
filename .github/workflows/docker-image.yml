@@ -11,16 +11,17 @@ jobs:
     runs-on: [self-hosted, Linux, ARM64]
     steps:
       - uses: actions/checkout@v2
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: georgiapipeline/ltsp-base
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build the Docker image
         run: |
           docker build \
             --file DockerfileArm64 \
             --output "type=image,push=false" \
             --tag georgiapipeline/ltsp-base:arm64-latest .
+        working-directory: ltsp-base
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: georgiapipeline/ltsp-base
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
         working-directory: ltsp-base

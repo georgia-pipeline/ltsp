@@ -1,5 +1,6 @@
 FROM ubuntu:20.04 as ltsp-base
 
+ARG DEBIAN_FRONTEND=noninteractive
 ADD nbd-server-wrapper.sh /bin/
 ADD /patches/feature-grub.diff /patches/feature-grub.diff
 RUN apt-get -y update \

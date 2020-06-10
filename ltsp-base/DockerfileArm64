@@ -9,7 +9,6 @@ RUN apt-get -y update \
       nbd-server \
       grub-common \
       grub-efi-arm64 \
-      grub-efi-arm-bin \
       grub-efi-arm64-bin \
       curl \
       patch \

@@ -25,6 +25,5 @@ jobs:
           docker build \
             --file DockerfileArm64 \
             --output "type=image,push=false" \
-            --tag georgiapipeline/ltsp-base:arm64-latest . \
-          docker push .
+            --tag georgiapipeline/ltsp-base:arm64-latest .
         working-directory: ltsp-base

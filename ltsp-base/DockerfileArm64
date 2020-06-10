@@ -1,4 +1,4 @@
-FROM ubuntu:16.04 as ltsp-base
+FROM ubuntu:20.04 as ltsp-base
 
 ADD nbd-server-wrapper.sh /bin/
 ADD /patches/feature-grub.diff /patches/feature-grub.diff

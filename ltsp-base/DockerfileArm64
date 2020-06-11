@@ -12,6 +12,7 @@ RUN apt-get -y update \
       grub-common \
       grub-efi-arm64 \
       grub-efi-arm64-bin \
+      vim \
       curl \
       patch
 #      \

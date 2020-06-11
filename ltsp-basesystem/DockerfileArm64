@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # where dependencies are not resolved on the first execution.
 RUN mkdir -p /opt/ltsp/arm64 \
     && debootstrap --arch arm64 bionic /opt/ltsp/arm64 | true
-RUN debootstrap --arch arm64 bionic /opt/ltsp/arm64
+RUN debootstrap --arch arm64 bionic /opt/ltsp/arm64 | true
 
 
 RUN echo -e "deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse" > /opt/ltsp/arm64/etc/apt/sources.list
@@ -20,8 +20,8 @@ RUN echo -e 'LANGUAGE="en_US:en"' >> /opt/ltsp/arm64/etc/default/locale
 
 RUN chroot /opt/ltsp/arm64 apt-get -y update && apt-get -y upgrade
 RUN chroot /opt/ltsp/arm64 apt install -y \
-    --no-install-recommends linux-generic initramfs-tools \
-    && echo focal > /etc/hostname
+    --no-install-recommends linux-generic initramfs-tools
+RUN chroot /opt/ltsp/arm64 echo -e focal > /etc/hostname
 
 # Installing LTSP-packages
 #RUN chroot /opt/ltsp/arm64 apt-get -y install ltsp-client-core

@@ -3,7 +3,7 @@ FROM georgiapipeline/ltsp-base:arm64-latest as ltsp-basesystem
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Prepare base system
-RUN debootstrap --arch arm64 xenial /opt/ltsp/arm64
+RUN debootstrap --arch arm64 focal /opt/ltsp/arm64
 
 # Install updates
 RUN echo "\

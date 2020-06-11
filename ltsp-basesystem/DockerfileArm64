@@ -20,7 +20,7 @@ RUN echo -e 'LANGUAGE="en_US:en"' >> /opt/ltsp/arm64/etc/default/locale
 
 RUN chroot /opt/ltsp/arm64 apt-get -y update && apt-get -y upgrade
 RUN chroot /opt/ltsp/arm64 apt install -y \
-    --no-install-recommends linux-generic initramfs-tools
+    --no-install-recommends linux-generic initramfs-tools \
     && echo focal > /etc/hostname
 
 # Installing LTSP-packages

@@ -3,36 +3,37 @@ FROM georgiapipeline/ltsp-base:arm64-latest as ltsp-basesystem
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Prepare base system
-RUN debootstrap --arch arm64 focal /opt/ltsp/arm64
+# The below | true fixes a hideous issue with debootstrap and bionic
+# where dependencies are not resolved on the first execution.
+RUN mkdir -p /opt/ltsp/arm64 \
+    && debootstrap --arch arm64 bionic /opt/ltsp/arm64 | true
+RUN debootstrap --arch arm64 bionic /opt/ltsp/arm64
 
-# Install updates
-RUN echo "\
-      deb http://ports.ubuntu.com/ubuntu-ports focal main restricted multiverse universe\n\
-      deb http://ports.ubuntu.com/ubuntu-ports focal-backports main restricted multiverse universe\n\
-      deb http://ports.ubuntu.com/ubuntu-ports focal-security main restricted multiverse universe\n\
-      deb http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted multiverse universe" \
-      > /opt/ltsp/arm64/etc/apt/sources.list \
- && ltsp-chroot apt-get -y update \
- && ltsp-chroot apt-get -y upgrade
+
+RUN echo -e "deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse" > /opt/ltsp/arm64/etc/apt/sources.list
+RUN echo -e "deb http://ports.ubuntu.com/ubuntu-ports bionic-backports main restricted universe multiverse" >> /opt/ltsp/arm64/etc/apt/sources.list
+RUN echo -e "deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse" >> /opt/ltsp/arm64/etc/apt/sources.list
+RUN echo -e "deb http://ports.ubuntu.com/ubuntu-ports bionic-updates main restricted universe multiverse" >> /opt/ltsp/arm64/etc/apt/sources.list
+RUN echo -e 'DPkg::options { "--force-confdef"; };' > /opt/ltsp/arm64/etc/apt/apt.conf.d/80debNoninteractive
+RUN echo -e 'LANG="en_US.UTF-8"' >> /opt/ltsp/arm64/etc/default/locale
+RUN echo -e 'LANGUAGE="en_US:en"' >> /opt/ltsp/arm64/etc/default/locale
+
+RUN chroot /opt/ltsp/arm64 apt-get -y update && apt-get -y upgrade
+RUN chroot /opt/ltsp/arm64 apt install -y \
+    --no-install-recommends linux-generic initramfs-tools
+    && echo focal > /etc/hostname
 
 # Installing LTSP-packages
-RUN ltsp-chroot apt-get -y install ltsp-client-core
-
-# Apply initramfs patches
-# 1: Read params from /etc/lts.conf during the boot (#1680490)
-# 2: Add support for PREINIT variables in lts.conf
-ADD /patches /patches
-RUN patch -p4 -d /opt/ltsp/amd64/usr/share < /patches/feature_initramfs_params_from_lts_conf.diff \
- && patch -p3 -d /opt/ltsp/amd64/usr/share < /patches/feature_preinit.diff
+#RUN chroot /opt/ltsp/arm64 apt-get -y install ltsp-client-core
 
 # Write new local client config for boot NBD image to ram:
-RUN echo "[Default]\nLTSP_NBD_TO_RAM = true" \
-      > /opt/ltsp/amd64/etc/lts.conf
+RUN echo -e "[Default]\nLTSP_NBD_TO_RAM = true" > /opt/ltsp/arm64/etc/lts.conf
 
 # Install packages
-RUN echo 'APT::Install-Recommends "0";\nAPT::Install-Suggests "0";' \
-      >> /opt/ltsp/amd64/etc/apt/apt.conf.d/01norecommend \
- && ltsp-chroot apt-get -y install \
+RUN echo -e 'APT::Install-Recommends "0";' >> /opt/ltsp/arm64/etc/apt/apt.conf.d/01norecommend
+RUN echo -e 'APT::Install-Suggests "0";'   >> /opt/ltsp/arm64/etc/apt/apt.conf.d/01norecommend
+
+RUN chroot /opt/ltsp/arm64 apt-get -y install \
       software-properties-common \
       apt-transport-https \
       ca-certificates \
@@ -62,4 +63,4 @@ RUN echo 'APT::Install-Recommends "0";\nAPT::Install-Suggests "0";' \
       make
 
 # Install kernel
-RUN ltsp-chroot apt-get -y install linux-generic-hwe-16.04
+#RUN chroot /opt/ltsp/arm64 apt-get -y install linux-generic-hwe-16.04

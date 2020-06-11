@@ -26,9 +26,9 @@ jobs:
             --tag georgiapipeline/ltsp-base:arm64-latest .
         working-directory: ltsp-base
 
-#      - name: Push build ltsp-base
-#        run: docker push georgiapipeline/ltsp-base:arm64-latest
-#        working-directory: ltsp-base
+      - name: Push build ltsp-base
+        run: docker push georgiapipeline/ltsp-base:arm64-latest
+        working-directory: ltsp-base
 
 #      - name: Build the ltsp-basesystem
 #        run: |

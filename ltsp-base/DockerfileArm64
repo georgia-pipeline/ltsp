@@ -13,10 +13,11 @@ RUN apt-get -y update \
       grub-efi-arm64 \
       grub-efi-arm64-bin \
       curl \
-      patch \
- && sed -i 's|in_target mount|in_target_nofail mount|' \
-      /usr/share/debootstrap/functions \
-  # Add EFI support and Grub bootloader (#1745251)
- && patch -p2 -d /usr/sbin < /patches/feature-grub.diff \
- && rm -rf /var/lib/apt/lists \
- && apt-get clean
+      patch
+#      \
+# && sed -i 's|in_target mount|in_target_nofail mount|' \
+#      /usr/share/debootstrap/functions \
+#  # Add EFI support and Grub bootloader (#1745251)
+# && patch -p2 -d /usr/sbin < /patches/feature-grub.diff \
+# && rm -rf /var/lib/apt/lists \
+# && apt-get clean
